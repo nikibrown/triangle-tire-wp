@@ -22,7 +22,7 @@ $post_type_options = array(
 $all_options = ImportHelper::$all_options;
 
 
-function get_options()
+function get_wpoptions()
 {
 	$returns = array();
 	foreach( ImportHelper::$all_options as $v )
