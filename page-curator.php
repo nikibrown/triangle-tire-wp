@@ -150,34 +150,9 @@ get_header();
     </div>
 </div>
 
-<script src="<?php bloginfo( 'template_url' ); ?>/js/vendor/foundation.reveal.js"></script>
-<?php
+<?php endwhile; ?>
 
-        // If comments are open or we have at least one comment, load up the comment template.
-        if ( comments_open() || get_comments_number() ) :
-            comments_template();
-        endif;
 
-        // End the loop.
-    endwhile;
-    ?>
-
-<script type="text/javascript">
-jQuery(document).ready(function($) {
-    if (!localStorage.getItem('scoop_closed')) {
-        $('.js-first-prompt').show();
-    } else {
-        $('.js-second-alert').show();
-    }
-
-    $(document.body).on('click', '.js-close-prompt', function(e) {
-        e.preventDefault();
-        localStorage.setItem('scoop_closed', true);
-        $('.js-first-prompt').remove();
-        $('.js-second-alert').show();
-    })
-});
-</script>
 <?php
 
 get_footer();
