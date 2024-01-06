@@ -9,51 +9,17 @@
 get_header();
 
 
-    // Start the loop.
-    while ( have_posts() ) : the_post();
+// Start the loop.
+while ( have_posts() ) : the_post();
+$img = featured_image( $post->ID, 'full'); ?>
 
-        $img = featured_image( $post->ID, 'full');
-        $gallery = get_post_gallery( $post->ID, false );
-        //$gallery = array_unique( $gallery );
-        $ids = explode( ",", $gallery['ids'] );
-        $pics = array();
-        if( !empty( $ids ) )
-        {
-            foreach( $ids as $id )
-            {
-                $pics[] = wp_get_attachment_url( $id );
-            }
-            $pics = array_unique( $pics );
-        }
-        $pics = array_filter( $pics );
-        ?>
-
-<?php
-        if( !empty( $img ) || !empty( $pics ) )
-        {
-            ?>
+<?php if( !empty( $img )) {?>
 <div class="interiorbanner expanded row">
     <div class="large-12">
-        <?php
-            if( !empty( $pics ) )
-            {
-                echo '<div class="js-gallery" style="height: 300px; max-height: 300px; overflow: hidden;">';
-                foreach( $pics as $g )
-                {
-                    echo '<img src="'. $g .'" />';
-                }
-                echo '</div>';
-            }
-            else
-            {
-                echo '<img src="'.$img.'" />';
-            }
-            ?>
+        <?php echo '<img src="'.$img.'" />'; ?>
     </div>
 </div>
-<?php
-        }
-        ?>
+<?php } ?>
 <div class="container-fluid curator">
     <div id="gearheads" class="row">
         <div class="medium-12 large-12 columns gearheadcontent">
