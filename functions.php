@@ -20,17 +20,17 @@ function pw_rcp_add_user_fields() {
 	$newsletter = get_user_meta( get_current_user_id(), 'rcp_newsletter', true );
 	$newsletterreject = get_user_meta( get_current_user_id(), 'rcp_newsletterreject', true );
 	?>
-	<p>
-		<label for="rcp_company"><?php _e( 'Company', 'rcp' ); ?></label>
-		<input name="rcp_company" id="rcp_company" type="text" value="<?php echo esc_attr( $company ); ?>"/>
-	</p>
-	<p>
-		<label for="rcp_newsletter"><?php _e( 'Optin to Newsletter?', 'rcp' ); ?></label>
-		<select name="rcp_newsletter" id="rcp_newsletter" value="<?php echo esc_attr( $newsletter ); ?>">
-    		<option value="yes">Yes</option>
-			<option value="no">No</option>
-		</select>
-	</p>
+<p>
+    <label for="rcp_company"><?php _e( 'Company', 'rcp' ); ?></label>
+    <input name="rcp_company" id="rcp_company" type="text" value="<?php echo esc_attr( $company ); ?>" />
+</p>
+<p>
+    <label for="rcp_newsletter"><?php _e( 'Optin to Newsletter?', 'rcp' ); ?></label>
+    <select name="rcp_newsletter" id="rcp_newsletter" value="<?php echo esc_attr( $newsletter ); ?>">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+    </select>
+</p>
 <?php
 }
 add_action( 'rcp_after_password_registration_field', 'pw_rcp_add_user_fields' );
@@ -45,25 +45,25 @@ function pw_rcp_add_member_edit_fields( $user_id = 0 ) {
 	$company = get_user_meta( $user_id, 'rcp_company', true );
 	$newsletter = get_user_meta( $user_id, 'rcp_newsletter', true );
 	?>
-	<tr valign="top">
-		<th scope="row" valign="top">
-			<label for="rcp_company"><?php _e( 'Company', 'rcp' ); ?></label>
-		</th>
-		<td>
-			<input name="rcp_company" id="rcp_company" type="text" value="<?php echo esc_attr( $company ); ?>"/>
-			<p class="description"><?php _e( 'The member\'s company', 'rcp' ); ?></p>
-		</td>
-	</tr>
-	<tr valign="top">
-		<th scope="row" valign="top">
-			<label for="rcp_newsletter"><?php _e( 'Newsletter Optin', 'rcp' ); ?></label>
-		</th>
-		<td>
-			<input name="rcp_newsletter" id="rcp_newsletter" type="text" value="<?php echo esc_attr( $newsletter ); ?>"/>
-			<p class="description"><?php _e( 'Optin answer', 'rcp' ); ?></p>
-		</td>
-	</tr>
-	<?php
+<tr valign="top">
+    <th scope="row" valign="top">
+        <label for="rcp_company"><?php _e( 'Company', 'rcp' ); ?></label>
+    </th>
+    <td>
+        <input name="rcp_company" id="rcp_company" type="text" value="<?php echo esc_attr( $company ); ?>" />
+        <p class="description"><?php _e( 'The member\'s company', 'rcp' ); ?></p>
+    </td>
+</tr>
+<tr valign="top">
+    <th scope="row" valign="top">
+        <label for="rcp_newsletter"><?php _e( 'Newsletter Optin', 'rcp' ); ?></label>
+    </th>
+    <td>
+        <input name="rcp_newsletter" id="rcp_newsletter" type="text" value="<?php echo esc_attr( $newsletter ); ?>" />
+        <p class="description"><?php _e( 'Optin answer', 'rcp' ); ?></p>
+    </td>
+</tr>
+<?php
 }
 add_action( 'rcp_edit_member_after', 'pw_rcp_add_member_edit_fields' );
 
@@ -160,12 +160,16 @@ var _gaq = _gaq || [];
 _gaq.push(['_setAccount', '<?php echo $ga_id; ?>']);
 _gaq.push(['_trackPageview']);
 (function() {
-var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
+    '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
 })();
 </script>
-    <?php
+<?php
     }
 }
 add_action( 'wp_footer', 'ga_output', 1 );
@@ -667,4 +671,26 @@ function send_print_form()
 		'redirect' => $url,
 	] );
     die;
+}
+
+
+/** 
+ * Display page template's name column into admin
+ */
+//Add the custom column to the post type
+add_filter( 'manage_pages_columns', 'sp_add_custom_column' );
+function sp_add_custom_column( $columns ) {
+  $columns['template'] = 'Template';
+  return $columns;
+}
+// Add the data to the custom column
+add_action( 'manage_pages_custom_column' , 'sp_add_custom_column_data', 10, 2 );
+function sp_add_custom_column_data( $column, $post_id ) {
+  switch ( $column ) {
+    case 'template' :
+      $post = get_post( $post_id );
+      //echo get_post_meta( $post->ID, '_wp_page_template', true );
+      echo get_page_template_slug( $post ); 
+    break;
+  }
 }
